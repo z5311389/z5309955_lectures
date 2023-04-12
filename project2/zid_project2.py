@@ -270,7 +270,16 @@ def mk_ret_df(prc_df):
     """
     # <COMPLETE THIS PART>
 
+    df = pd.read_csv(cfg.FF_CSV)
+    df = cfg.standardise_colnames(df)
+    df = df.loc[:, 'mkt']
+    print(df)
+    prc_df['mkt'] = df
+    for i in prc_df.index:
+        if prc_df['mkt'][i] == 'NaN':
+            prc_df.drop(index=i, inplace=True)
 
+    return prc_df
 
 
 
@@ -955,8 +964,8 @@ if __name__ == "__main__":
     pass
     #_test_cfg()
     #_test_read_prc_csv()
-    _test_mk_prc_df()
-    #_test_mk_ret_df()
+    #_test_mk_prc_df()
+    _test_mk_ret_df()
     #_test_mk_aret_df()
     #_test_get_avg()
     #_test_get_ew_rets()
