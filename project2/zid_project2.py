@@ -21,7 +21,8 @@ import pandas as pd
 
 import config as cfg
 import os
-import datetime as dt
+import numpy
+from datetime import datetime as dt
 
 # ----------------------------------------------------------------------------
 # Part 3: Complete the read_prc_csv function
@@ -273,7 +274,18 @@ def mk_ret_df(prc_df):
 
     df = pd.read_csv(cfg.FF_CSV)
     df = cfg.standardise_colnames(df)
-    df = df.loc[:, 'mkt']
+
+    date_list = list(prc_df.index.values)
+    first_date = date_list[0]
+    time = pd.to_datetime(str(first_date))
+    first_date = time.strftime('%Y-%m-%d')
+
+    last_date = date_list[-1]
+    time = pd.to_datetime(str(last_date))
+    last_date = time.strftime('%Y-%m-%d')
+
+    df = df.loc[first_date:last_date, 'mkt']
+    print("DATAFRAME")
     print(df)
     prc_df['mkt'] = df
     for i in prc_df.index:
