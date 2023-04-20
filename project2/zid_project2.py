@@ -413,6 +413,13 @@ def get_avg(df, col, year):
 
     """
     #<COMPLETE THIS PART>
+    # Filter data frame by year
+    df_year = df.loc[df.index.year == year]
+
+    # Compute the mean of the column for the given year
+    mean = df_year[col].mean()
+
+    return mean
 
 
 
@@ -458,6 +465,13 @@ def get_ew_rets(df, tickers):
 
     """
     #<COMPLETE THIS PART>
+    # Filter data frame to include only the tickers specified
+    df = df[tickers]
+
+    # Compute the mean of the selected columns, ignoring missing values
+    mean = df.mean(axis=1, skipna=True)
+
+    return mean
 
 
 
@@ -504,6 +518,17 @@ def get_ann_ret(ser, start, end):
 
     """
     # <COMPLETE THIS PART>
+    # Select data between start and end dates
+    data = ser.loc[start:end].dropna()
+
+    # Compute total return and number of days
+    tot_ret = (data + 1).prod() - 1
+    N = len(data)
+
+    # Compute annualised return
+    ann_ret = (tot_ret + 1) ** (252 / N) - 1
+
+    return ann_ret
 
 
 # ----------------------------------------------------------------------------
@@ -978,7 +1003,7 @@ if __name__ == "__main__":
     #_test_cfg()
     #_test_read_prc_csv()
     #_test_mk_prc_df()
-    _test_mk_ret_df()
+    #_test_mk_ret_df()
     #_test_mk_aret_df()
     #_test_get_avg()
     #_test_get_ew_rets()
